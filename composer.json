@@ -1,0 +1,21 @@
+{
+    "name": "levgenij/simpleimage",
+    "description": "A PHP class that simplifies working with images",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Yevhenii Lypei",
+            "email": "ilevgenij@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=5.5.0",
+        "abeautifulsite/simpleimage": "2.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "LightAdmin\\Image\\": "src/"
+        }
+    }
+}
