@@ -53,21 +53,22 @@ class SimpleImageController extends SimpleImage
 		return $this;
 	}
 
-	public function crop($width, $height=false, $x2=false, $y2=false) {
+	public function crop($width, $height=null, $x2=null, $y2=null) {
 
-// если указан только один параметр, значит, это квадратная обрезка:
-		if(!$height){
-			$this->square_crop($width);
-			return $this;
+		if($x2 and $y2){
+			return parent::crop($width, $height, $x2, $y2);
 		}
-		$src_x = 0; /////// ???
-		$src_y = 0; /////// ???
 
+		if(!$height){
+			return $this->thumbnail($width);
+		}
 
 		$src_w = $this->get_width();
 		$src_h = $this->get_height();
 
-// если вдруг генерируемое изображение больше исходного, создаем новое соотношение
+		$height = $height?: $width;
+
+		// if generated image hightest original - create new ratio
 		if($width>$src_w or $height>$src_h){
 			if($width>=$height){
 				$height = $height/$width*$src_w;
@@ -85,13 +86,16 @@ class SimpleImageController extends SimpleImage
 		$dst_x = 0;
 		$dst_y = -($dst_h-$height)/2;
 
-// если оказалось, что высота образовавшейся области больше, нежели нашего изображения, тогда меняем стиль генерации
+		// if height of new area highest then new image - change generation
 		if($height>$dst_h){
 			$dst_w = $src_w/$src_h*$height;
 			$dst_h = $height;
 			$dst_y = 0;
 			$dst_x = -($dst_w-$width)/2;
 		}
+
+		$src_x = 0;
+		$src_y = 0;
 
 		$new = imagecreatetruecolor($width, $height);
 		imagealphablending($new, false);
