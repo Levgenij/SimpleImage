@@ -20,8 +20,8 @@ class SimpleImageController extends SimpleImage
 	{
 
 		// create puth is not exist
-		if (!\File::exists($filename)) {
-			$dir = pathinfo($filename)['dirname'];
+		$dir = pathinfo($filename)['dirname'];
+		if (!\File::exists($dir)) {
 			\File::makeDirectory($dir, 0775, true);
 		}
 
